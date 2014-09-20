@@ -1,4 +1,6 @@
 testCalculator/CalculatorController.class
 testCalculator/Calculator.class
 testCalculator/CalculatorView.class
+testCalculator/CalculatorStart.class
+testCalculator/CalculatorListener.class
 testCalculator/CalculatorDemo.class
