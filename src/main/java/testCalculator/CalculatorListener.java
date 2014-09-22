@@ -13,7 +13,6 @@ public class CalculatorListener extends Observable implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        //System.out.println(e.getSource());
         String z= e.getActionCommand();
 
         watchedValue=z;

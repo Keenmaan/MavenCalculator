@@ -35,20 +35,15 @@ public class Calculator{
     private String getMessage(){
         int i=0;
         while(checkCalculatorSequence(i)) {
-            System.out.print("calculatorSequence(" + i + ")=");
-            System.out.println("'"+calculatorSequence.get(i)+"'");
             i++;
         }
         String x = "";
         for(String s : calculatorMemory){
             x = " " + x + " " + s;
-            System.out.print(" " +s);
         }
         for (String s : calculatorSequence) {
             x = " " + x + " " + s;
-            System.out.print(" " +s);
         }
-        System.out.println();
         return x;
     }
 
@@ -116,7 +111,6 @@ public class Calculator{
     }
 
     private void setCalculatorSequence(int i,String s){
-        System.out.println("setCalculatorSequence  i="+i+" ; s="+s);
         if(checkCalculatorSequence(i)){
             this.calculatorSequence.set(i,s);
         }
@@ -128,7 +122,6 @@ public class Calculator{
 
     }
     public String addOperator(String s){
-        System.out.println("Operator: "+s+" ,countNumbers: "+countNumbers);
         if (countNumbers==0){
             return getMessage();
         }
