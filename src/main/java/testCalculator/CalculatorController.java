@@ -25,8 +25,8 @@ public class CalculatorController implements Observer {
     }
 
     public void update(Observable obj, Object arg){
-        String x=String.valueOf(arg);
-        view.setCalcResult(updateModel(x));
+        //String x=String.valueOf(arg);
+        view.setCalcResult(updateModel(String.valueOf(arg)));
     }
 
     private String updateModel(String s){
@@ -35,12 +35,17 @@ public class CalculatorController implements Observer {
                 return model.NumbersCalculation(i);
             }
         }
+        if (s==".")
+            return model.addDot(s);
         if (s=="+" || s=="-" || s=="*" || s=="/" || s=="=" )
-            return model.makeAnOperation(s);
+            return model.addOperator(s);
         else
-        if (s=="C" || s=="AC")
+        if (s=="AC")
             return model.clearAll();
         else
-            return model.getLastMessage();
+        if (s=="C")
+            return model.clear();
+        else
+            return null;
     }
 }
