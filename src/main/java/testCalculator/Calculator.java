@@ -1,5 +1,4 @@
 package testCalculator;
-import org.apache.commons.lang3.math.NumberUtils;
 import java.text.*;
 import java.util.ArrayList;
 
@@ -20,6 +19,17 @@ public class Calculator{
         hasDot=false;
     }
 
+    private boolean isANumber(String s){
+        for (int i=0;i<10;i++) {
+            if (s.equals(String.valueOf(i))) {
+                return true;
+            }
+        }
+        if (s.equals("."))
+            return true;
+        else
+            return false;
+    }
     private void saveMemory(){
         int n=calculatorMemory.size();
         for (int i=0;i<5;i++){
@@ -93,7 +103,7 @@ public class Calculator{
         if (i==10)
             s="0.";
         if(checkCalculatorSequence(countNumbers-1) && countNumbers>0) {
-            if (NumberUtils.isNumber(calculatorSequence.get(countNumbers-1))){
+            if (isANumber(calculatorSequence.get(countNumbers - 1))){
                 if (i==10)
                     s=".";
                 setCalculatorSequence(countNumbers-1, calculatorSequence.get(countNumbers-1) + s);
@@ -154,7 +164,7 @@ public class Calculator{
                 setCalculatorSequence(countNumbers,"=");
                 setCalculatorSequence(countNumbers, makeAnOperation(countNumbers - 4, countNumbers - 2));
                 saveMemory();
-                setCalculatorSequence(countNumbers,calculatorMemory.get(calculatorMemory.size()-2));
+                setCalculatorSequence(countNumbers, calculatorMemory.get(calculatorMemory.size() - 2));
                 setCalculatorSequence(countNumbers,s);
             }
             return getMessage();
