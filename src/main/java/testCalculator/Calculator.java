@@ -14,6 +14,7 @@ public class Calculator{
      */
     ArrayList<String> calculatorMemory=new ArrayList<String>();
     ArrayList<String> calculatorSequence=new ArrayList<String>();
+    private boolean naN=false;
     private int position =0;
     private boolean hasDot=false;
 
@@ -28,7 +29,7 @@ public class Calculator{
     /**
      * Checks if s is a number.
      * @param s the String to be checked. It counts '.' as part of a number, so it can process double type.
-     * @return
+     * @return true if s is a number
      */
     private boolean isANumber(String s){
         boolean isNumeric =false;
@@ -39,7 +40,7 @@ public class Calculator{
                 isNumeric &= Character.isDigit(chars[i]);
                 if (!isNumeric && chars[i]!='.')
                     return false;
-                if (chars[i]=='.');
+                if (chars[i]=='.')
                     isNumeric=true;
             }
         }
@@ -51,6 +52,7 @@ public class Calculator{
      * Adds on top of existing calculatorMemory elements and seperates them with ', '.
      */
     private void saveMemory(){
+        naN=false;
         int n=calculatorMemory.size();
         for (int i=0;i<5;i++){
             this.calculatorMemory.add(n+i,calculatorSequence.get(i));
@@ -63,8 +65,9 @@ public class Calculator{
     }
 
     /**
-     * Gets
-     * @return
+     * Gets the output calculator message for the user
+     * from calculatorMemory and calculatorSequence ArrayLists.
+     * @return calculation line values and operations
      */
     private String getMessage(){
         int i=0;
@@ -81,13 +84,22 @@ public class Calculator{
         return x;
     }
 
+    /**
+     * Checks if calculatorSequence is big enough,
+     * avoiding the Array out of boundaries exception.
+     * @param i position to be checked
+     * @return true if calculatorSequence.size() is big enough
+     */
     private boolean checkCalculatorSequence(int i){
-        if (calculatorSequence.size()>i)
-            return true;
-        else
-            return false;
+        return calculatorSequence.size() > i;
     }
 
+    /**
+     * Adds two doubles.
+     * @param a a double number
+     * @param b a double number
+     * @return product of a+b
+     */
     private double Add(double a, double b){
         return (a+b);
     }
@@ -104,10 +116,12 @@ public class Calculator{
         if (b!=0){
             return (a/b);
         }
-        else if (a>0)
-            return(Double.POSITIVE_INFINITY);
-        else
+        naN=true;
+        if (a>0)
+           return(Double.POSITIVE_INFINITY);
+        if (a<0)
             return(Double.NEGATIVE_INFINITY);
+        return(Double.NaN);
     }
 
     private String getDouble(double i){
@@ -187,9 +201,13 @@ public class Calculator{
             else{
                 setCalculatorSequence(position,"=");
                 setCalculatorSequence(position, makeAnOperation(position - 4, position - 2));
-                saveMemory();
-                setCalculatorSequence(position, calculatorMemory.get(calculatorMemory.size() - 2));
-                setCalculatorSequence(position,s);
+                if (!naN){
+                    saveMemory();
+                    setCalculatorSequence(position, calculatorMemory.get(calculatorMemory.size() - 2));
+                    setCalculatorSequence(position,s);
+                }
+                else
+                    saveMemory();
             }
             return getMessage();
         }
