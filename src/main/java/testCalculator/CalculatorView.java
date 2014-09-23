@@ -6,10 +6,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 /**
- * Created by keen on 9/19/14.
+ * View for MavenCalculator project.
  */
 public class CalculatorView extends JFrame{
 
@@ -24,12 +23,20 @@ public class CalculatorView extends JFrame{
     private JButton enter=new JButton("=");
     private JButton fullClearButton=new JButton("AC");
 
+    /**
+     *View constructor. Calls the setGUI method and sets the GUI visible.
+     * @param listener Listener instance
+     */
     public CalculatorView(CalculatorListener listener){
         setGUI(listener);
         this.setVisible(true);
     }
 
-    public void setGUI(ActionListener listener){
+    /**
+     * Sets the whole GUI.
+     * @param listener Listener instance
+     */
+    private void setGUI(ActionListener listener){
         JPanel mainPanel=new JPanel(new BorderLayout(2,2));
         JPanel allButtonsPanel=new JPanel(new GridLayout(1,2));
         JPanel buttonsPanel=new JPanel(new GridLayout(3,3,4,4));
@@ -79,6 +86,10 @@ public class CalculatorView extends JFrame{
         this.add(mainPanel);
     }
 
+    /**
+     * Sets the calcResult panel with String s message.
+     * @param s a String message containing all numbers, operators and calculation results.
+     */
     public void setCalcResult(String s){
         this.calcResult.setText(s);
     }

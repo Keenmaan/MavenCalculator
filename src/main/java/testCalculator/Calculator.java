@@ -3,7 +3,7 @@ import java.text.*;
 import java.util.ArrayList;
 
 /**
- * Created by keen on 9/18/14.
+ * Model for MavenCalculator project.
  */
 public class Calculator{
 
@@ -103,15 +103,30 @@ public class Calculator{
     private double Add(double a, double b){
         return (a+b);
     }
-
+    /**
+     * Subtracts two doubles.
+     * @param a a double number
+     * @param b a double number
+     * @return product of a-b
+     */
     private double Subtract(double a,double b){
         return (a-b);
     }
-
+    /**
+     * Multiplies two doubles.
+     * @param a a double number
+     * @param b a double number
+     * @return product of a*b
+     */
     private double Multiply(double a,double b){
         return (a*b);
     }
-
+    /**
+     * Divides two doubles.
+     * @param a a double number
+     * @param b a double number
+     * @return product of a/b
+     */
     private double Divide(double a,double b){
         if (b!=0){
             return (a/b);
@@ -124,18 +139,32 @@ public class Calculator{
         return(Double.NaN);
     }
 
+    /**
+     * Formats a double number into a String format.
+     * @param i a double number
+     * @return formatted
+     */
     private String getDouble(double i){
         DecimalFormat df = new DecimalFormat("0.###");
         return df.format(i);
     }
 
-    public String addDot(String s){
+    /**
+     * Adds a dot to a number if no dot is already added and then returns the getMessage()
+     * @return getMessage()
+     */
+    public String addDot(){
         if (hasDot)
             return getMessage();
         else
             return NumbersCalculation(10);
     }
 
+    /**
+     * Calculates in which position of calculatorSequence should the entered 'i' parameter be put in and then returns getMessage().
+     * @param i an int number that should be inserted into calculatorSequence
+     * @return getMessage()
+     */
     public String NumbersCalculation(int i) {
         String s=String.valueOf(i);
         if (i==10)
@@ -158,6 +187,11 @@ public class Calculator{
         return getMessage();
     }
 
+    /**
+     * Sets calculatorSequence value to String 's' or adds an element if none exists in 'i' index position.
+     * @param i index position
+     * @param s a String that is to be put into calculatorSequence array
+     */
     private void setCalculatorSequence(int i,String s){
         if(checkCalculatorSequence(i)){
             this.calculatorSequence.set(i,s);
@@ -169,6 +203,13 @@ public class Calculator{
         }
 
     }
+
+    /**
+     * Adds an operator contained in parameter s to calculatorSequence array(if its the proper position),
+     * and then returns getMessage().
+     * @param s a String containing an operator for calculations
+     * @return getMessage()
+     */
     public String addOperator(String s){
         if (position ==0){
             return getMessage();
@@ -183,7 +224,7 @@ public class Calculator{
             if(s.equals("=")){
                 setCalculatorSequence(position,calculatorSequence.get(position -2));
                 setCalculatorSequence(position,s);
-                setCalculatorSequence(position,makeAnOperation(position -4, position -2));
+                setCalculatorSequence(position, runAnOperation(position - 4, position - 2));
                 saveMemory();
                 return getMessage();
             }
@@ -195,12 +236,12 @@ public class Calculator{
         if (position ==3)  {
             if(s.equals("=")){
                 setCalculatorSequence(position,s);
-                setCalculatorSequence(position, makeAnOperation(position - 4, position - 2));
+                setCalculatorSequence(position, runAnOperation(position - 4, position - 2));
                 saveMemory();
             }
             else{
                 setCalculatorSequence(position,"=");
-                setCalculatorSequence(position, makeAnOperation(position - 4, position - 2));
+                setCalculatorSequence(position, runAnOperation(position - 4, position - 2));
                 if (!naN){
                     saveMemory();
                     setCalculatorSequence(position, calculatorMemory.get(calculatorMemory.size() - 2));
@@ -218,7 +259,14 @@ public class Calculator{
         return getMessage();
     }
 
-    public String makeAnOperation(int i,int j){
+    /**
+     * Runs an operation, depending on what operator is in calculatorSequence and then
+     * returns getDouble(z) which contains properly formatted data into String.
+     * @param i position in calculatorSequence for double number 'a'
+     * @param j position in calculatorSequence for double number 'b'
+     * @return returns (String) getDouble(z)
+     */
+    private String runAnOperation(int i, int j){
         Double a=Double.parseDouble(calculatorSequence.get(i));
         String s=calculatorSequence.get(i+1);
         Double b=Double.parseDouble(calculatorSequence.get(j));
@@ -234,6 +282,10 @@ public class Calculator{
         return getDouble(z);
 }
 
+    /**
+     * Clears all.
+     * @return null
+     */
     public String clearAll() {
         this.position =0;
         for (int i=calculatorSequence.size();i>0;i--){
@@ -248,6 +300,10 @@ public class Calculator{
             return "not_NULL";
     }
 
+    /**
+     * Clears last entered data, unless it was already saved (saveMemory()) and returns getMessage().
+     * @return getMessage()
+     */
     public String clear(){
         if(position >=1){
             this.position = position -1;

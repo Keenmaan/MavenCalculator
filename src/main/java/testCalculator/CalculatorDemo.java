@@ -1,7 +1,7 @@
 package testCalculator;
 
 /**
- * Created by keen on 9/19/14.
+ * CalculatorDemo
  */
 public class CalculatorDemo {
     public static void main(String[] args) {

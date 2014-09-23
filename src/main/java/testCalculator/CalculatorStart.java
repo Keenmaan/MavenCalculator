@@ -1,9 +1,7 @@
 package testCalculator;
 
-import java.util.Observer;
-
 /**
- * Created by keen on 9/20/14.
+ * Class instantiating the whole MVC.
  */
 public class CalculatorStart{
 

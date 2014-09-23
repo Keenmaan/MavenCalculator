@@ -1,13 +1,10 @@
 package testCalculator;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by keen on 9/19/14.
+ * Controller for MavenCalculator project.
  */
 public class CalculatorController implements Observer {
 
@@ -24,26 +21,37 @@ public class CalculatorController implements Observer {
         listener.addObserver(this);
     }
 
+    /**
+     * Calls updateModel method when user input from GUI, gets a String message
+     * and updates the view through view.setCalcResult method.
+     * @param obj observable object (listener)
+     * @param arg observer object (controller)
+     */
     public void update(Observable obj, Object arg){
         //String x=String.valueOf(arg);
         view.setCalcResult(updateModel(String.valueOf(arg)));
     }
 
+    /**
+     * Returns String message from theModel after it was updated and has done its processing.
+     * @param s User input String command value. A number or operator.
+     * @return returns a String message containing calculation numbers, operators and results
+     */
     private String updateModel(String s){
         for (int i=0;i<10;i++) {
             if (s.equals(String.valueOf(i))) {
                 return model.NumbersCalculation(i);
             }
         }
-        if (s==".")
-            return model.addDot(s);
-        if (s=="+" || s=="-" || s=="*" || s=="/" || s=="=" )
+        if (s.equals("."))
+            return model.addDot();
+        if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/") || s.equals("="))
             return model.addOperator(s);
         else
-        if (s=="AC")
+        if (s.equals("AC"))
             return model.clearAll();
         else
-        if (s=="C")
+        if (s.equals("C"))
             return model.clear();
         else
             return null;
