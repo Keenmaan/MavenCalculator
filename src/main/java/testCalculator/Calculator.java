@@ -27,7 +27,7 @@ public class Calculator{
 
     /**
      * Checks if s is a number.
-     * @param s A String
+     * @param s the String to be checked. It counts '.' as part of a number, so it can process double type.
      * @return
      */
     private boolean isANumber(String s){
@@ -45,6 +45,11 @@ public class Calculator{
         }
         return isNumeric;
     }
+
+    /**
+     * Saves the calculatorSequence into calculatorMemory.
+     * Adds on top of existing calculatorMemory elements and seperates them with ', '.
+     */
     private void saveMemory(){
         int n=calculatorMemory.size();
         for (int i=0;i<5;i++){
@@ -57,6 +62,10 @@ public class Calculator{
         position =0;
     }
 
+    /**
+     * Gets
+     * @return
+     */
     private String getMessage(){
         int i=0;
         while(checkCalculatorSequence(i)) {
