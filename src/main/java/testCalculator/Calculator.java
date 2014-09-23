@@ -9,26 +9,41 @@ public class Calculator{
 
 
     //lastWasANumber is true if last was a number and not an operation
+    /**
+     * Contains all the entered data. Each element in this list resembles each step of calculating.
+     */
     ArrayList<String> calculatorMemory=new ArrayList<String>();
     ArrayList<String> calculatorSequence=new ArrayList<String>();
-    private int countNumbers=0;
+    private int position =0;
     private boolean hasDot=false;
 
+    /**
+     * Counts position in the calculatorMemory array.
+     */
     private void count(){
-        this.countNumbers=countNumbers+1;
+        this.position = position +1;
         hasDot=false;
     }
 
+    /**
+     * Checks if s is a number.
+     * @param s A String
+     * @return
+     */
     private boolean isANumber(String s){
-        for (int i=0;i<10;i++) {
-            if (s.equals(String.valueOf(i))) {
-                return true;
+        boolean isNumeric =false;
+        if (s != null && !s.equals("")){
+            isNumeric=true;
+            char chars[] = s.toCharArray();
+            for (int i=0;i<chars.length;i++){
+                isNumeric &= Character.isDigit(chars[i]);
+                if (!isNumeric && chars[i]!='.')
+                    return false;
+                if (chars[i]=='.');
+                    isNumeric=true;
             }
         }
-        if (s.equals("."))
-            return true;
-        else
-            return false;
+        return isNumeric;
     }
     private void saveMemory(){
         int n=calculatorMemory.size();
@@ -39,7 +54,7 @@ public class Calculator{
             calculatorSequence.remove(i);
         }
         this.calculatorMemory.add(calculatorMemory.size(),", ");
-        countNumbers=0;
+        position =0;
     }
 
     private String getMessage(){
@@ -102,18 +117,18 @@ public class Calculator{
         String s=String.valueOf(i);
         if (i==10)
             s="0.";
-        if(checkCalculatorSequence(countNumbers-1) && countNumbers>0) {
-            if (isANumber(calculatorSequence.get(countNumbers - 1))){
+        if(checkCalculatorSequence(position -1) && position >0) {
+            if (isANumber(calculatorSequence.get(position - 1))){
                 if (i==10)
                     s=".";
-                setCalculatorSequence(countNumbers-1, calculatorSequence.get(countNumbers-1) + s);
+                setCalculatorSequence(position -1, calculatorSequence.get(position -1) + s);
             }
                 else {
-                setCalculatorSequence(countNumbers, s);
+                setCalculatorSequence(position, s);
             }
         }
         else{
-            setCalculatorSequence(countNumbers, s);
+            setCalculatorSequence(position, s);
         }
         if (i==10)
             hasDot=true;
@@ -132,45 +147,45 @@ public class Calculator{
 
     }
     public String addOperator(String s){
-        if (countNumbers==0){
+        if (position ==0){
             return getMessage();
         }
-        if (countNumbers==1){
+        if (position ==1){
             if(s.equals("="))
                 return getMessage();
-            setCalculatorSequence(countNumbers,s);
+            setCalculatorSequence(position,s);
             return getMessage();
         }
-        if (countNumbers==2){
+        if (position ==2){
             if(s.equals("=")){
-                setCalculatorSequence(countNumbers,calculatorSequence.get(countNumbers-2));
-                setCalculatorSequence(countNumbers,s);
-                setCalculatorSequence(countNumbers,makeAnOperation(countNumbers -4,countNumbers-2));
+                setCalculatorSequence(position,calculatorSequence.get(position -2));
+                setCalculatorSequence(position,s);
+                setCalculatorSequence(position,makeAnOperation(position -4, position -2));
                 saveMemory();
                 return getMessage();
             }
             else {
-                setCalculatorSequence(countNumbers - 1, s);
+                setCalculatorSequence(position - 1, s);
                 return getMessage();
             }
         }
-        if (countNumbers==3)  {
+        if (position ==3)  {
             if(s.equals("=")){
-                setCalculatorSequence(countNumbers,s);
-                setCalculatorSequence(countNumbers, makeAnOperation(countNumbers - 4, countNumbers - 2));
+                setCalculatorSequence(position,s);
+                setCalculatorSequence(position, makeAnOperation(position - 4, position - 2));
                 saveMemory();
             }
             else{
-                setCalculatorSequence(countNumbers,"=");
-                setCalculatorSequence(countNumbers, makeAnOperation(countNumbers - 4, countNumbers - 2));
+                setCalculatorSequence(position,"=");
+                setCalculatorSequence(position, makeAnOperation(position - 4, position - 2));
                 saveMemory();
-                setCalculatorSequence(countNumbers, calculatorMemory.get(calculatorMemory.size() - 2));
-                setCalculatorSequence(countNumbers,s);
+                setCalculatorSequence(position, calculatorMemory.get(calculatorMemory.size() - 2));
+                setCalculatorSequence(position,s);
             }
             return getMessage();
         }
-        if (countNumbers==4){
-            setCalculatorSequence(countNumbers,s);
+        if (position ==4){
+            setCalculatorSequence(position,s);
         }
 
         return getMessage();
@@ -193,7 +208,7 @@ public class Calculator{
 }
 
     public String clearAll() {
-        this.countNumbers=0;
+        this.position =0;
         for (int i=calculatorSequence.size();i>0;i--){
             this.calculatorSequence.remove(i-1);
         }
@@ -207,13 +222,13 @@ public class Calculator{
     }
 
     public String clear(){
-        if(countNumbers>=1){
-            this.countNumbers=countNumbers-1;
-            if(checkCalculatorSequence(countNumbers+2))
-                this.calculatorSequence.remove(countNumbers+2);
-            if(checkCalculatorSequence(countNumbers+1))
-                this.calculatorSequence.remove(countNumbers+1);
-            this.calculatorSequence.remove(countNumbers);
+        if(position >=1){
+            this.position = position -1;
+            if(checkCalculatorSequence(position +2))
+                this.calculatorSequence.remove(position +2);
+            if(checkCalculatorSequence(position +1))
+                this.calculatorSequence.remove(position +1);
+            this.calculatorSequence.remove(position);
         }
         return getMessage();
     }
